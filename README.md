@@ -1,2 +1,2 @@
 # clash_for_magisk
-pass wall
+基于大魔王版本修改 自用
