@@ -26,7 +26,6 @@ sniffer:
     - 'google.com'
     
 external-controller: 0.0.0.0:9090
-external-ui: clash-dashboard/dist
 tun:
   enable: false
   device: Meta
