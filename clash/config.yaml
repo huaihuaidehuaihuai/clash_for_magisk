@@ -8,29 +8,29 @@ tcp-concurrent: true
 enable-process: true
 mode: rule
 log-level: debug
-profile:                   
-  store-selected: true    
-  store-fake-ip: true      
-sniffer:                         
-  enable: false                  
-  sniffing:                      
+profile:
+  store-selected: true
+  store-fake-ip: true
+sniffer:
+  enable: true
+  sniffing:
     - tls
     - http
-  skip-domain:                   
-                                 
-    - 'Mijia Cloud'              
+  skip-domain:
+
+    - 'Mijia Cloud'
     - 'dlg.io.mi.com'
-    - '+.apple.com'                
-  force-domain:                  
-  # - '+'                        
+    - '+.apple.com'
+  force-domain:
+    # - '+'                        
     - 'google.com'
-    
+
 external-controller: 0.0.0.0:9090
-external-ui: clash-dashboard/dist
+external-ui: ui
 tun:
-  enable: false
+  enable: true
   device: Meta
-  stack: gvisor 
+  stack: gvisor
   dns-hijack:
     - any:53
   auto-route: true
@@ -64,270 +64,243 @@ dns:
 proxies:
 
 proxy-providers:
-  
+
   机场1:
     type: http
-    url: "订阅填这里"
+    url: "订阅地址"
     path: ./proxy_providers/机场1.yaml
     interval: 3600
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
-            
+
+
+  机场2:
+    type: http
+    url: "订阅地址"
+    path: ./proxy_providers/机场2.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+      
+  机场3:
+    type: http
+    url: "订阅地址"
+    path: ./proxy_providers/机场3.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
 proxy-groups:
 
   - name: 节点选择
     type: select
     proxies:
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
     use:
-      - 机场1      
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 电报消息
     type: select
     proxies:
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
+      - 节点选择
     use:
-      - 机场1  
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 谷歌节点
     type: select
     proxies:
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
+      - 节点选择
     use:
-      - 机场1    
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 油管视频
     type: select
     proxies:
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
+      - 节点选择
     use:
-      - 机场1    
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 奈飞视频
     type: select
     proxies:
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
+      - 节点选择
     use:
-      - 机场1 
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 漏网之鱼
     type: select
     proxies:
       - DIRECT
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
+      - 节点选择
     use:
-      - 机场1    
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 国际抖音
     type: select
     proxies:
-      - 香港节点
-      - 日本节点      
-      - 美国节点      
-      - 台湾节点      
-      - 狮城节点     
-      - 韩国节点     
-      - 澳洲节点     
+      - 节点选择
     use:
-      - 机场1    
+      - 机场1
+      - 机场2
+      - 机场3
   - name: 广告拦截
     type: select
     proxies:
-      - REJECT  
-      - PASS      
-  - name: 香港节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-    use:
-      - 机场1  
-    filter: 香港
-  - name: 日本节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-    use:
-      - 机场1  
-    filter: 日本
-  - name: 美国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 150
-    proxies:
-    use:
-      - 机场1  
-    filter: 美国
-  - name: 台湾节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-    use:
-      - 机场1  
-    filter: 台湾
-  - name: 狮城节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-    use:
-      - 机场1  
-    filter: 新加坡
-  - name: 韩国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-    use:
-      - 机场1  
-    filter: 韩国
-
-  - name: 澳洲节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-    use:
-      - 机场1  
-    filter: 澳洲
-
+      - REJECT
+      - PASS
 rule-providers:
   Google:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml"
     path: ./rule_providers/Google.yaml
-    interval: 86400   
-    
+    interval: 86400
+
   YouTube:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml"
     path: ./rule_providers/YouTube.yaml
-    interval: 86400  
-    
+    interval: 86400
+
   GoogleDrive:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleDrive/GoogleDrive.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GoogleDrive/GoogleDrive.yaml"
     path: ./rule_providers/GoogleDrive.yaml
-    interval: 86400         
-      
+    interval: 86400
+
   Advertising_Classical:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising_Classical.yaml"
     path: ./rule_providers/Advertising_Classical.yaml
-    interval: 86400   
-    
+    interval: 86400
+
   GitHub:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml"
     path: ./rule_providers/GitHub.yaml
-    interval: 86400  
-    
+    interval: 86400
+
+  Speedtest:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml"
+    path: ./rule_providers/Speedtest.yaml
+    interval: 86400
+
   Telegram:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml"
     path: ./rule_providers/Telegram.yaml
-    interval: 86400   
-    
+    interval: 86400
+
   Netflix:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml"
     path: ./rule_providers/Netflix.yaml
-    interval: 86400  
-    
+    interval: 86400
+
   TikTok:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml"
     path: ./rule_providers/TikTok.yaml
-    interval: 86400     
-      
+    interval: 86400
+
   Privacy_Classical:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_Classical.yaml"
     path: ./rule_providers/Privacy_Classical.yaml
-    interval: 86400   
-    
+    interval: 86400
+
   Lan:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml"
     path: ./rule_providers/Lan.yaml
-    interval: 86400  
-    
+    interval: 86400
+
   Direct:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml"
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml"
     path: ./rule_providers/Direct.yaml
-    interval: 86400         
-      
-  PikPak:
+    interval: 86400
+
+  Steam:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PikPak/PikPak.yaml"
-    path: ./rule_providers/PikPak.yaml
-    interval: 86400       
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml"
+    path: ./rule_providers/Steam.yaml
+    interval: 86400
+
 rules:
+#PikPak 
+  - DOMAIN-SUFFIX,access.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,access.mypikpak.net,节点选择
+  - DOMAIN-SUFFIX,adjust.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,api-audit.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,api-drive.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,api-drive.mypikpak.net,节点选择
+  - DOMAIN-SUFFIX,api-feedback.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,config.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,copyright.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,drive.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,feedback.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,i.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,inapp.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,info.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,pay-gateway.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,pay-gateway.mypikpak.net,节点选择
+  - DOMAIN-SUFFIX,pay.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,pay.mypikpak.net,节点选择
+  - DOMAIN-SUFFIX,static.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,toapp.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,user.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,user.mypikpak.net,节点选择
+  - DOMAIN-SUFFIX,www.copyright.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,www.drive.mypikpak.com,节点选择
+  - DOMAIN-SUFFIX,www.mypikpak.com,节点选择
+#
+#Proxy 自定义
+  - DOMAIN-SUFFIX,cloud.faster.buzz,节点选择
+  - DOMAIN-SUFFIX,t66y.com  ,节点选择
+  - DOMAIN-SUFFIX,xiaomi.eu ,节点选择
+  - DOMAIN-SUFFIX,subf1vf.v7329.top ,节点选择
+  - DOMAIN-SUFFIX,milkcat.net,节点选择
+  - DOMAIN-SUFFIX,webtest.net,节点选择
+  - DOMAIN-KEYWORD,fuqing,节点选择 
+#  
+  - RULE-SET,Steam,节点选择
   - RULE-SET,YouTube,油管视频
   - RULE-SET,Google,谷歌节点
-  - RULE-SET,GoogleDrive,谷歌节点  
-  - RULE-SET,GitHub,节点选择 
+  - RULE-SET,GoogleDrive,谷歌节点
+  - RULE-SET,GitHub,节点选择
+  - RULE-SET,Speedtest,节点选择
   - RULE-SET,Advertising_Classical,广告拦截
   - RULE-SET,Privacy_Classical,广告拦截
-  - RULE-SET,TikTok,国际抖音 
+  - RULE-SET,TikTok,国际抖音
   - RULE-SET,Telegram,电报消息
   - RULE-SET,Netflix,奈飞视频
   - RULE-SET,Direct,DIRECT
   - RULE-SET,Lan,DIRECT
-  - GEOSITE,CN,DIRECT  
+  - GEOSITE,CN,DIRECT
   - GEOIP,CN,DIRECT
-  - MATCH,漏网之鱼
+  - 
