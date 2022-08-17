@@ -83,7 +83,7 @@ start_clash() {
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: clash内核已启动." >> ${CFM_logs_file}
         else
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 配置有误，启动失败." >> ${CFM_logs_file}
-			$(${Clash_bin_path} -d ${Clash_data_dir} -f ${temporary_config_file} -t  | grep error| awk -F 'msg=' '{print $2}'>> ${CFM_logs_file})
+			$(${Clash_bin_path} -d ${Clash_data_dir} -f ${Clash_config_file} -t  | grep error| awk -F 'msg=' '{print $2}'>> ${CFM_logs_file})
             exit 1
         fi
     else
